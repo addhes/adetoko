@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .keranjang {
+        @apply text-white p-2 text-xs md:text-sm bg-cyan-600 hover:bg-cyan-500
+        rounded-md
+    }
+}
