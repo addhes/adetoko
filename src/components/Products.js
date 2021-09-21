@@ -1,9 +1,10 @@
 import Image from 'next/image'
 import Currency from 'react-currency-formatter'
 import { StarIcon } from '@heroicons/react/outline';
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { addToBasket } from '../slices/basketSlice';
+import Skeleton from 'react-loading-skeleton';
 
 
 const MAX_RATING = 5
@@ -32,37 +33,57 @@ function Products({id, title, price, description, category, image }) {
         dispatch(addToBasket(product))
     }
 
-    return (
-        <div className="relative flex flex-col m-5 bg-gray-50 shadow-sm z-30 p-10">
-            <p className="absolute top-2 right-2 text-xs italic text-gray-400">{category}</p>
+    const [hasProduct, setProduct] = useState(false);
 
-            <Image src={image} height={200} width={200} objectFit="contain" />
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setProduct(true);
+        }, 1000);
+        return () => clearTimeout(timer);
+    })
 
-            <h4 className="my-3">{title}</h4>
+    if(hasProduct) {
+        return (
+            <div className="relative flex flex-col m-5 bg-gray-50 shadow-sm z-30 p-10">
+                <p className="absolute top-2 right-2 text-xs italic text-gray-400">{category}</p>
 
-            <div className="flex">
-                {Array(rating).fill().map((_, i) =>(
-                    <StarIcon className="h-5 text-yellow-500" />
-                ))}
-            </div>
+                <Image src={image} height={200} width={200} objectFit="contain" />
 
-            <p className="text-xs my-2 line-clamp-2">{description}</p>
+                <h4 className="my-3">{title}</h4>
 
-            <div className="mb-5">
-                <Currency quantity={price} currency="IDR" />
-            </div>
-
-            {hasPrime && (
-                <div className="flex items-center space-x-2 -mt-5">
-                    <img className="w-12" src="https://links.papareact.com/fdw" alt="" />
-                    <p className="text-xs text-gray-500">FREE Next-day Delivery</p>
+                <div className="flex">
+                    {Array(rating).fill().map((_, i) =>(
+                        <StarIcon className="h-5 text-yellow-500" />
+                    ))}
                 </div>
-            )}
 
-            <button onClick={addItemToBasket} className="mt-auto keranjang">Tambah ke Keranjang</button>
+                <p className="text-xs my-2 line-clamp-2">{description}</p>
 
-        </div>
-    )
+                <div className="mb-5">
+                    <Currency quantity={price} currency="IDR" />
+                </div>
+
+                {hasPrime && (
+                    <div className="flex items-center space-x-2 -mt-5">
+                        <img className="w-12" src="https://links.papareact.com/fdw" alt="" />
+                        <p className="text-xs text-gray-500">FREE Next-day Delivery</p>
+                    </div>
+                )}
+
+                <button onClick={addItemToBasket} className="mt-auto keranjang">Tambah ke Keranjang</button>
+
+            </div>
+        )
+        
+                }
+
+        return (
+            <div className="relative flex flex-col m-5 bg-gray-50 shadow-sm z-30 p-10">
+                <p className=" pl-14 mb-6"> { <Skeleton width={90} height={90} /> || category } </p>
+                <h4> {<Skeleton /> || title} </h4> <br />
+                <p> {<Skeleton count={2} /> || description } </p>
+            </div>
+        )
 }
 
 export default Products

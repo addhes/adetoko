@@ -12,10 +12,10 @@ function checkout() {
     const total = useSelector(selectTotal);
 
     return (
-        <div className="bg-gray-100">
+        <div className="bg-gray-100 pt">
             <Header />
 
-            <main className="lg:flex max-w-screen-xl mx-auto">
+            <main className="lg:flex pt-24 md:pt-16 max-w-screen-xl mx-auto">
                 {/* left */}
                 <div className=" flex-grow m-5 shadow-sm">
                     <Image 
@@ -48,7 +48,7 @@ function checkout() {
 
                 </div>
                 {/* right */}
-                <div  className="flex flex-col bg-white p-10 shadow-md">
+                <div  className=" flex flex-col bg-white p-10 shadow-md">
                     {items.length > 0 && (
                         <>
                             <h2 className="whitespace-nowrap">
